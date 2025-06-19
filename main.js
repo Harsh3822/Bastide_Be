@@ -1,14 +1,17 @@
-// index.js
-const express = require('express');
+const express = require("express");
 const app = express();
+const path = require("path");
+const PORT = process.env.PORT || 10000;
 
-app.use(express.static('public'));  // agar static frontend hai
+// Serve static files (if frontend exists)
+app.use(express.static(path.join(__dirname, "public"))); // change if folder is 'dist' or 'build'
 
-app.get('/api/hello', (req, res) => {
-  res.json({ msg: "Hello from Render!" });
+// Route fallback (for SPAs)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html")); // or dist/index.html
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`App listening on ${port}`);
+// Start the server
+app.listen(PORT, () => {
+  console.log(`App listening on ${PORT}`);
 });
