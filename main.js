@@ -1,16 +1,12 @@
-const express = require("express");
-const app = express();
-const path = require("path");
-const PORT = process.env.PORT || 10000;
+const jsonServer = require("json-server"); // importing json-server library
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
+const port = process.env.PORT || 3001; // you can use any port number here; i chose to use 3001
 
-// Serve static files
-app.use(express.static(path.join(__dirname, "dist")));
+server.use(middlewares);
+server.use(router);
 
-// Route fallback
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+server.listen(port);
 
-app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
-});
+// this json-server
