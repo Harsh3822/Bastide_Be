@@ -1,12 +1,14 @@
-const jsonServer = require('json-server'); // importing json-server library
-const server = jsonServer.create();
-const router = jsonServer.router("db.json");
-const middlewares = jsonServer.defaults();
-const port = process.env.PORT || 3000; // you can use any port number here; i chose to use 3001
+// index.js
+const express = require('express');
+const app = express();
 
-server.use(middlewares);
-server.use(router);
+app.use(express.static('public'));  // agar static frontend hai
 
-server.listen(port);
+app.get('/api/hello', (req, res) => {
+  res.json({ msg: "Hello from Render!" });
+});
 
-// this json-server file is only for local testing
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`App listening on ${port}`);
+});
